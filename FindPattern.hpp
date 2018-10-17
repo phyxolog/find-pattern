@@ -34,11 +34,11 @@ namespace FindPattern {
     *
     * @return Address of the pattern found, -1 otherwise.
     */
-    std::size_t FindPattern(
+    int FindPattern(
             std::vector<unsigned char> Data,
             const char* Pattern,
-            std::size_t BaseAddress = 0,
-            std::size_t Offset = 0,
+            int BaseAddress = 0,
+            int Offset = 0,
             int Occurrence = 0);
 };
 

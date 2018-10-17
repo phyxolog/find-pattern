@@ -69,11 +69,11 @@ namespace FindPattern {
         return (matched == 2);
     }
 
-    std::size_t FindPattern(
+    int FindPattern(
             std::vector<unsigned char> Data,
             const char* Pattern,
-            std::size_t BaseAddress,
-            std::size_t Offset,
+            int BaseAddress,
+            int Offset,
             int Occurrence) {
         std::vector<PatternByte> PatternData;
         if (!TransformPattern(Pattern, PatternData)) {
@@ -88,7 +88,7 @@ namespace FindPattern {
 
             if (ret != Data.end()) {
                 if (Occurrence == 0 || ResultCount == Occurrence) {
-                    return BaseAddress + distance(Data.begin(), ret) + Offset;
+                    return BaseAddress + static_cast<int>(std::distance(Data.begin(), ret)) + Offset;
                 }
 
                 ResultCount++;
