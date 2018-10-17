@@ -5,7 +5,7 @@ namespace FindPattern {
         std::string Result;
         unsigned long len = PatternText.length();
         for (unsigned long i = 0; i < len; i++) {
-            if (PatternText[i] == '?' || isxdigit(PatternText[i])) {
+            if (PatternText[i] == '?' || std::isxdigit(PatternText[i])) {
                 Result += std::toupper(PatternText[i]);
             }
         }
@@ -18,7 +18,7 @@ namespace FindPattern {
     }
 
     bool TransformPattern(std::string PatternText, std::vector<PatternByte> &Pattern) {
-        PatternByte newByte;
+        PatternByte NewByte;
         Pattern.clear();
         PatternText = FormatPattern(PatternText);
         unsigned long Length = PatternText.length();
@@ -33,16 +33,16 @@ namespace FindPattern {
 
         for(int i = 0, j = 0; i < Length; i++) {
             if (PatternText[i] == '?') {
-                newByte.Nibble[j].Wildcard = true;
+                NewByte.Nibble[j].Wildcard = true;
             } else {
-                newByte.Nibble[j].Wildcard = false;
-                newByte.Nibble[j].Data = static_cast<unsigned char>(HexCharToInt(PatternText[i]) & 0xF);
+                NewByte.Nibble[j].Wildcard = false;
+                NewByte.Nibble[j].Data = static_cast<unsigned char>(HexCharToInt(PatternText[i]) & 0xF);
             }
 
             j++;
             if (j == 2) {
                 j = 0;
-                Pattern.push_back(newByte);
+                Pattern.push_back(NewByte);
             }
         }
 
@@ -50,23 +50,23 @@ namespace FindPattern {
     }
 
     bool MatchByte(const unsigned char Byte, const PatternByte &PatternByte) {
-        int matched = 0;
-
+        int Matched = 0;
         auto n1 = (Byte >> 4) & 0xF;
-        if (PatternByte.Nibble[0].Wildcard) {
-            matched++;
-        } else if (PatternByte.Nibble[0].Data == n1) {
-            matched++;
-        }
-
         auto n2 = Byte & 0xF;
-        if (PatternByte.Nibble[1].Wildcard) {
-            matched++;
-        } else if(PatternByte.Nibble[1].Data == n2) {
-            matched++;
+
+        if (PatternByte.Nibble[0].Wildcard) {
+            Matched++;
+        } else if (PatternByte.Nibble[0].Data == n1) {
+            Matched++;
         }
 
-        return (matched == 2);
+        if (PatternByte.Nibble[1].Wildcard) {
+            Matched++;
+        } else if (PatternByte.Nibble[1].Data == n2) {
+            Matched++;
+        }
+
+        return Matched == 2;
     }
 
     int FindPattern(
@@ -82,17 +82,18 @@ namespace FindPattern {
 
         int ResultCount = 0;
         auto ScanStart = Data.begin();
+        std::vector<unsigned char>::iterator Ret;
 
         for(;;) {
-            auto ret = search(ScanStart, Data.end(), PatternData.begin(), PatternData.end(), MatchByte);
+            Ret = std::search(ScanStart, Data.end(), PatternData.begin(), PatternData.end(), MatchByte);
 
-            if (ret != Data.end()) {
+            if (Ret != Data.end()) {
                 if (Occurrence == 0 || ResultCount == Occurrence) {
-                    return BaseAddress + static_cast<int>(std::distance(Data.begin(), ret)) + Offset;
+                    return BaseAddress + static_cast<int>(std::distance(Data.begin(), Ret)) + Offset;
                 }
 
                 ResultCount++;
-                ScanStart = ++ret;
+                ScanStart = ++Ret;
             } else {
                 break;
             }
