@@ -62,7 +62,7 @@ namespace FindPattern {
         auto n2 = Byte & 0xF;
         if (PatternByte.Nibble[1].Wildcard) {
             matched++;
-        } else if(PatternByte.Nibble[1].Data == n2) {
+        } else if (PatternByte.Nibble[1].Data == n2) {
             matched++;
         }
 

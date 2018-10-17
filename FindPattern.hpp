@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+// From https://gist.github.com/phyxolog/3a05558ef5ae89d8d0925d7192d4f01e
+
 namespace FindPattern {
     typedef struct PatternNibble {
         unsigned char Data;
