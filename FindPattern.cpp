@@ -23,7 +23,7 @@ namespace FindPattern {
         PatternText = FormatPattern(PatternText);
         unsigned long Length = PatternText.length();
 
-        if(!Length)
+        if (!Length)
             return false;
 
         if (Length % 2) {
@@ -31,7 +31,7 @@ namespace FindPattern {
             Length++;
         }
 
-        for(int i = 0, j = 0; i < Length; i++) {
+        for (int i = 0, j = 0; i < Length; i++) {
             if (PatternText[i] == '?') {
                 NewByte.Nibble[j].Wildcard = true;
             } else {
