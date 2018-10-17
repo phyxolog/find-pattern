@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-// From https://gist.github.com/phyxolog/3a05558ef5ae89d8d0925d7192d4f01e
+// From https://gist.github.com/mrexodia/f058868b81b2f1cb011a
 
 namespace FindPattern {
     typedef struct PatternNibble {
